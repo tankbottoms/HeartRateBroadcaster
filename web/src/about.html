@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About — HeartRate Broadcaster</title>
+<meta name="description" content="Why HeartRate Broadcaster exists: one app for heart rate, power meters, a KICKR CORE 2 and the shifting, all of it going to MyWhoosh, instead of four that each do part of it.">
+<link rel="canonical" href="https://heart-rate.atsignhandle.xyz/about.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#e62233">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="HeartRate Broadcaster">
+<meta property="og:url" content="https://heart-rate.atsignhandle.xyz/about.html">
+<meta property="og:title" content="About — HeartRate Broadcaster">
+<meta property="og:description" content="Why HeartRate Broadcaster exists: one app for heart rate, power meters, a KICKR CORE 2 and the shifting, all of it going to MyWhoosh, instead of four that each do part of it.">
+<meta property="og:image" content="https://heart-rate.atsignhandle.xyz/static/img/og.png">
+<link rel="icon" href="static/img/icon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="static/fontawesome/css/fontawesome.min.css">
+<link rel="stylesheet" href="static/fontawesome/css/thin.min.css">
+<link rel="stylesheet" href="static/css/site.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="/index.html"><img src="static/img/icon.png" alt="">HRB</a>
+    <!-- The same nav the home page carries, in the same order. Links point at
+         /index.html#anchor rather than /#anchor so the localiser rewrites them
+         to /<locale>/index.html#anchor — a bare "/" would drop a Japanese
+         reader onto the English home page. -->
+    <nav>
+      <!-- See index.html: one <details> is the inline row from a tablet up
+           and a menu below that, because five links do not fit a phone in
+           any language. -->
+      <details class="menu">
+        <summary><i class="fat fa-bars" aria-hidden="true"></i><span>Menu</span></summary>
+        <div class="menu-links">
+          <a href="/index.html#how">How it works</a>
+          <a href="/index.html#screens">Screens</a>
+          <a href="/index.html#features">Features</a>
+          <a href="/faq.html">FAQ</a>
+          <a href="/index.html#get">Get it</a>
+        </div>
+      </details>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <div class="wrap hero">
+    <h1>About</h1>
+    <p class="lede">
+      One app for the whole indoor setup — heart rate, the power meters, the
+      trainer and the shifting — because the pieces that were meant to do this
+      separately do not talk to each other.
+    </p>
+
+    <!-- Line art on paper, floating on its own white ground rather than boxed:
+         no card, no border, no shadow. The white stays white in dark mode —
+         inverting a pencil drawing gives a photographic negative, not a dark
+         drawing. -->
+    <figure class="hero-art">
+      <img src="static/img/hero.jpg"
+           alt="A Dimond time trial bike on a Wahoo KICKR trainer, with cycling shoes beside it"
+           width="1440" height="1440" loading="eager" decoding="async">
+      <figcaption>Everything here was already paid for. Somewhere in this
+      picture is the argument for spending another eighty dollars on a chest
+      strap, and it is not visible at this resolution. Drawing by Google
+      Gemini.</figcaption>
+    </figure>
+  </div>
+
+  <section>
+    <div class="wrap">
+      <h2>Why this exists</h2>
+      <p class="sub">
+        I wanted one simple thing, and it did not exist.
+      </p>
+      <p class="sub">
+        An Apple Watch measures heart rate well but cannot hand it to a training
+        app, so the usual advice is to buy a chest strap. Separately, the watch
+        will pair a power meter, and there are ways to get a KICKR talking to
+        it. None of that lets MyWhoosh control the trainer, and controlling the
+        trainer is the ride.
+      </p>
+      <p class="sub">
+        So this is one app for the whole setup: heart rate, the power meters,
+        the KICKR CORE 2, the shifting, and the workout itself. All of it goes
+        to MyWhoosh, which records the heart rate, the power, the shifts and the
+        calorie figure against a virtual route.
+      </p>
+      <p class="sub">
+        At the end MyWhoosh has that route and the activity as a FIT file.
+        Export a ride from there and import it into Strava; once the two
+        accounts are connected, later rides sync on their own. If that
+        is your setup, turn off Settings › Apple Health › Save Rides — otherwise
+        the same hour lands in Health twice, once from here and once from
+        Strava.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>What it does</h2>
+      <p class="sub">
+        Your Apple Watch runs a workout session so it can read heart rate
+        continuously. Each reading is sent to the iPhone, which re-broadcasts it
+        over Bluetooth LE as a standard heart rate monitor — service 0x180D.
+        Bike computers and training apps see the phone as an ordinary chest
+        strap. AirPods Pro 3 can be a second source, and when both are running
+        the app reconciles them into a single number before broadcasting.
+      </p>
+      <p class="sub">
+        There is no account, no analytics, no server, and nothing about you
+        reaches the developer. The source is published under the MIT licence.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Three ways to get it</h2>
+      <p class="sub">
+        One app, one build. The two free routes ask for effort or patience
+        instead of money; the App Store is the convenient one.
+      </p>
+
+      <div class="grid">
+
+        <div class="card">
+          <i class="fat fa-flask"></i>
+          <h3>TestFlight — free, 90 days</h3>
+          <p>Open to anyone, no invitation needed. Install Apple's TestFlight
+          app and open the public link. Each build stays usable for 90 days from
+          publication, and a new build resets the clock.</p>
+          <p><a href="https://testflight.apple.com/join/VUJCa5Gw">Join the public beta</a></p>
+        </div>
+
+        <div class="card">
+          <i class="fat fa-code-branch"></i>
+          <h3>Sideload — free, needs a developer account</h3>
+          <p>Every GitHub release carries a Release-configuration
+          <code>.ipa</code>, signed for distribution and therefore needing
+          re-signing with your own identity. HealthKit and background Bluetooth
+          are unavailable to free provisioning profiles, so this route needs a
+          paid Apple Developer account.</p>
+          <p><a href="https://github.com/tankbottoms/HeartRateBroadcaster/releases">Releases on GitHub</a></p>
+        </div>
+
+        <div class="card">
+          <i class="fat fa-money-bill-1"></i>
+          <h3>App Store — USD 4.99</h3>
+          <p>One purchase, no subscription, no in-app purchase, no ads, no
+          account. You are paying to skip both routes above, and for the work
+          behind it.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>What it works with</h2>
+      <p class="sub">
+        Built and ridden against a Wahoo KICKR CORE 2, PowerTap P1 pedals and a
+        SRAM Red crank power meter, with MyWhoosh as the cycling app and
+        shifting over the open Bike Control protocol from the OpenBikeControl
+        specification.
+      </p>
+      <p class="sub">
+        None of that is special. Any Bluetooth power meter, smart trainer or
+        head unit speaking the standard cycling profiles will work, and any app
+        that pairs a Bluetooth heart rate strap will see this phone as one.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>What is saved where</h2>
+      <p class="sub">
+        A finished ride is saved in this app, written to Apple Health, and —
+        while you are riding — sent live to whatever you are riding into. Those
+        are three separate things, and Settings &rsaquo; Apple Health turns off
+        the middle one, with a second switch for the calorie figure on its own.
+      </p>
+      <p class="sub">
+        Power and cadence are never written to Apple Health by this app. They
+        are in the session summary here, and in the file your cycling app
+        records.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Credits</h2>
+      <p class="sub">
+        Published by atsignhandle llc. The drawing above was made by Google
+        Gemini.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    &copy; 2026 atsignhandle llc &middot; <a href="/">Home</a> &middot; <a href="/faq.html">FAQ</a> &middot; <a href="/privacy.html">Privacy</a>
+    <br>
+    Wahoo, KICKR, PowerTap, SRAM, Red, MyWhoosh, Strava, Zwift, Garmin, Apple,
+    Apple Watch and AirPods are trademarks of their respective owners. This app
+    is not affiliated with, endorsed by, or sponsored by any of them.
+    Bluetooth&reg; is a trademark of Bluetooth SIG. Bike Control is an open
+    protocol, implemented here from the public OpenBikeControl specification.
+  </div>
+</footer>
+
+</body>
+</html>

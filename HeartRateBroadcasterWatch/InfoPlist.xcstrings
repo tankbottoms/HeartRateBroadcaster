@@ -1,0 +1,318 @@
+{
+  "sourceLanguage": "en",
+  "version": "1.0",
+  "strings": {
+    "NSHealthShareUsageDescription": {
+      "comment": "Shown by watchOS when the watch app first asks to read heart rate.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HeartRate Broadcaster reads your heart rate so it can be relayed to your bike computer or fitness device."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster liest deine Herzfrequenz, um sie an deinen Fahrradcomputer oder dein Fitnessgerät weiterzuleiten."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster lit votre fréquence cardiaque afin qu’elle puisse être relayée vers votre ordinateur de vélo ou votre appareil de fitness."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster legge la frequenza cardiaca in modo che possa essere trasmessa al computer di bicicletta o a un dispositivo fitness."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster lee tu frecuencia cardíaca para poder retransmitirla a tu ordenador de bicicleta o dispositivo de fitness."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster leest je hartslag op, zodat deze kan worden doorgegeven aan je fietscomputer of fitnessapparaat."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcasterは心拍数を読み取り、バイクコンピュータやフィットネスデバイスに中継します。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster 会读取您的心率，以便将其转发至您的码表或健身设备。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster 會讀取您的心率，以便將其轉送至您的自行車電腦或健身裝置。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster는 심박수를 읽어 자전거 컴퓨터나 피트니스 기기에 중계합니다."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster läser av din puls så att den kan skickas vidare till din cykldator eller träningsenhet."
+          }
+        },
+        "da": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster læser din puls, så den kan videresendes til din cycomputer eller fitnessenhed."
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster leser pulsen din slik at den kan videresendes til syklerdatamaskinen eller treningsenheten din."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster lukee sykkeesi, jotta se voidaan välittää pyörätietokoneeseesi tai kuntolaitteeseesi."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Aplikacja HeartRate Broadcaster odczytuje tętno, aby przesyłać je do komputera rowerowego lub innego urządzenia fitness."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster čte vaši srdeční frekvenci, aby ji mohl přenášet do cyklopočítače nebo fitness zařízení."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "O HeartRate Broadcaster lê sua frequência cardíaca para que ela possa ser transmitida ao seu computador de bicicleta ou dispositivo fitness."
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster lee tu frecuencia cardíaca para poder retransmitirla a tu computadora de bicicleta o dispositivo de fitness."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Приложение HeartRate Broadcaster считывает частоту сердечных сокращений, чтобы передавать эти данные на велокомпьютер или другое фитнес-устройство."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Сервіс HeartRate Broadcaster зчитує частоту серцевих скорочень, щоб передавати її на ваш велкомп’ютер або фітнес-пристрій."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster, kalp atış hızınızı bisikler bilgisayarınıza veya başka bir spor cihazına aktarmak için okur."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "تقرأ تطبيق HeartRate Broadcaster معدل ضربات قلبك حتى يمكن إرساله إلى جهاز الكمبيوتر الخاص بالدراجة أو جهاز اللياقة البدنية."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster อ่านอัตราการเต้นของหัวใจของคุณเพื่อนำไปส่งต่อให้เครื่องคอมพิวเตอร์จักรยานหรืออุปกรณ์ฟิตเนสของคุณ"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster membaca detak jantung Anda agar dapat diteruskan ke komputer sepeda atau perangkat kebugaran Anda."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster đọc nhịp tim của bạn để có thể chuyển tiếp đến máy tính xe đạp hoặc thiết bị thể dục của bạn."
+          }
+        }
+      }
+    },
+    "NSHealthUpdateUsageDescription": {
+      "comment": "Shown by watchOS when the watch app first asks to record a workout.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HeartRate Broadcaster records a workout session so heart rate can be sampled continuously while you ride."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster zeichnet eine Trainingseinheit auf, damit die Herzfrequenz während der Fahrt kontinuierlich gemessen werden kann."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster enregistre une séance d’entraînement afin que la fréquence cardiaque puisse être échantillonnée en continu pendant votre sortie."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster registra una sessione di allenamento in modo che la frequenza cardiaca possa essere campionata continuamente durante l'uscita."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster registra una sesión de entrenamiento para que la frecuencia cardíaca se muestree de forma continua mientras pedaleas."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster registreert een trainingssessie, zodat de hartslag continu kan worden gemeten tijdens het fietsen."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcasterはワークアウトセッションを記録し、走行中に心拍数を連続的にサンプリングできるようにします。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster 会记录锻炼会话，以便在骑行过程中持续采样心率。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster 會記錄運動課程，以便在騎乘期間持續採樣心率。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster는 라이딩 중 심박수를 지속적으로 샘플링할 수 있도록 운동 세션을 기록합니다."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster registrerar en träningspass så att pulsen kan mätas kontinuerligt medan du cyklar."
+          }
+        },
+        "da": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster optager en træningspas, så pulsen kan måles kontinuerligt, mens du cykler."
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster registrerer en treningsøkt slik at pulsen kan måles kontinuerlig mens du sykler."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster tallentaa kuntosalitreenin, jotta sykettä voidaan ottaa jatkuvasti näytteeksi ajon aikana."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Aplikacja HeartRate Broadcaster zapisuje sesję treningową, aby tętno było mierzone w sposób ciągły podczas jazdy."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster zaznamenává trénink, aby se srdeční frekvence dala průběžně snímat během jízdy."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "O HeartRate Broadcaster registra uma sessão de treino para que a frequência cardíaca possa ser amostrada continuamente enquanto você pedala."
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster registra una sesión de entrenamiento para que la frecuencia cardíaca se muestree de forma continua mientras corres."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Приложение HeartRate Broadcaster записывает тренировку, чтобы частота сердечных сокращений измерялась непрерывно во время езды."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Сервіс HeartRate Broadcaster записує тренування, щоб частоту серцевих скорочень можна було безперервно зчитувати під час їзди."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster, antrenman oturumunuzu kaydeder; böylece sürüş sırasında kalp atış hızınız kesintisiz olarak ölçülebilir."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "يسجل تطبيق HeartRate Broadcaster جلسة تمرين حتى يمكن أخذ عينات من معدل ضربات القلب بشكل مستمر أثناء ركوبك."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster บันทึกการออกกำลังกายเพื่อให้สามารถสุ่มตัวอย่างอัตราการเต้นของหัวใจอย่างต่อเนื่องขณะคุณขี่จักรยาน"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster merekam sesi latihan agar detak jantung dapat dicuplik secara terus-menerus saat Anda bersepeda."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "HeartRate Broadcaster ghi lại phiên tập luyện để nhịp tim có thể được lấy mẫu liên tục trong khi bạn đạp xe."
+          }
+        }
+      }
+    }
+  }
+}

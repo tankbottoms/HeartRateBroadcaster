@@ -1,0 +1,9 @@
+{
+  "subtitle": "自行車電腦的心率",
+  "description": "HeartRate Broadcaster 將您的 iPhone 轉化為標準藍牙心率監測器，數據來源為您已佩戴的感測器。\n\n您的 Apple Watch 和 AirPods Pro 3 會持續測量心率，但其他應用程式無法讀取這些數據。訓練應用程式和自行車電腦通常預期接收來自藍牙胸帶的訊號。HeartRate Broadcaster  bridging 了兩者之間的差距：它從您的手錶和 AirPods 讀取即時心率，將兩者數據整合為單一讀數，並以標準藍牙 LE 心率服務的形式重新廣播。您的訓練應用程式會將其視為普通的胸帶。\n\n雙感測器，單一數值\n當手錶和 AirPods 同時回報數據時，應用程式會對一致的讀數進行平均，並在數據不一致時剔除異常值，優先選擇更接近已觀察趨勢的數據。自行車電腦只會看到單一感測器的數據。Sensor Agreement 列會顯示哪些感測器處於即時狀態、它們之間的差異，以及最終輸出的數值——讓您無需盲目信任應用程式的數據。\n\n騎乘時一目了然\nLive Activity 會在鎖定畫面和 Dynamic Island 上顯示當前 BPM、數據來源，以及自行車電腦是否已實際訂閱。Picture in Picture 功能會將數值浮動顯示在您的訓練應用程式上方。在手錶上，短按一秒可鎖定觸控螢幕，防止被車衣袖子或把帶誤觸；再次按壓即可解鎖。\n\n揭示真相的診斷工具\n可透過識別碼查看已連線裝置、每位訂閱者接收的幀數、即時幀率、最後一幀的具體位元組，以及數據發送的時間。當出現問題時，您可以清楚判斷是發送端還是接收端出了問題。權限畫面會顯示應用程式所需的所有權限、當前設定狀態，以及直接修改的連結。\n\n無法執行的功能\nApple 未提供第三方應用程式讀取藍牙胸帶或其他手機感測器的 API，因此本應用程式無法匯入此類數據。它僅透過藍牙 LE 進行廣播——ANT+ 是另一種無線電技術，iPhone 並不具備此硬體。\n\n適用於 MyWhoosh、Zwift、TrainerRoad、Wahoo 以及支援藍牙的 Garmin Edge 裝置。需要 iOS 26 和 watchOS 11（用於手錶應用程式）。",
+  "keywords": "心率,藍牙,自行車,Zwift,MyWhoosh,胸帶,ANT,手錶,AirPods,廣播,訓練,BLE,感測器",
+  "promotionalText": "您的 Apple Watch 已具備心率測量功能。此應用程式將該數據傳輸至您的自行車電腦、訓練應用程式，或任何支援藍牙胸帶配對的裝置。",
+  "marketingUrl": "https://heart-rate.atsignhandle.xyz/",
+  "supportUrl": "https://heart-rate.atsignhandle.xyz/",
+  "privacyPolicyUrl": "https://heart-rate.atsignhandle.xyz/privacy.html"
+}

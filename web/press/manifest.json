@@ -1,0 +1,66 @@
+{
+  "app": "HeartRate Broadcaster",
+  "bundleId": "xyz.atsignhandle.heart-rate-broadcaster",
+  "generated": "2026-08-04T20:14:34.227Z",
+  "icon": "icon-1024.png",
+  "screenshots": {
+    "iphone-6.9": [
+      {
+        "file": "screenshots/iphone-6.9-01.png",
+        "caption": "Live reading, both sensors reconciled into one broadcast"
+      },
+      {
+        "file": "screenshots/iphone-6.9-02.png",
+        "caption": "Every Bluetooth detail: service, characteristic, frames on the wire"
+      },
+      {
+        "file": "screenshots/iphone-6.9-03.png",
+        "caption": "Bridge settings — advertised name, service, live subscriber count"
+      },
+      {
+        "file": "screenshots/iphone-6.9-04.png",
+        "caption": "Every permission, its real state, and a direct link to change it"
+      },
+      {
+        "file": "screenshots/iphone-6.9-05.png",
+        "caption": "Source, push frequency, Dynamic Island, Picture in Picture"
+      },
+      {
+        "file": "screenshots/iphone-6.9-06.png",
+        "caption": "Watch controls, and one tap back to permissions"
+      },
+      {
+        "file": "screenshots/iphone-6.9-07.png",
+        "caption": "Health and Bluetooth access, changeable without leaving the app"
+      }
+    ],
+    "ipad-13": [
+      {
+        "file": "screenshots/ipad-13-01.png",
+        "caption": "Broadcasting from the iPad, live from AirPods Pro 3"
+      },
+      {
+        "file": "screenshots/ipad-13-02.png",
+        "caption": "Broadcast detail: advertised name, service, subscribers, value"
+      },
+      {
+        "file": "screenshots/ipad-13-03.png",
+        "caption": "Every permission, its real state, and what denying it costs"
+      },
+      {
+        "file": "screenshots/ipad-13-04.png",
+        "caption": "Source, push frequency, Dynamic Island, Picture in Picture"
+      }
+    ],
+    "watch-46mm": [
+      {
+        "file": "screenshots/watch-46mm-01.png",
+        "caption": "Live heart rate on the wrist, link state at a glance"
+      },
+      {
+        "file": "screenshots/watch-46mm-02.png",
+        "caption": "Watch status: phone link, bridge, and HealthKit"
+      }
+    ]
+  }
+}

@@ -1,0 +1,750 @@
+/* HRB marketing page.
+   Light, high-contrast, one accent colour — the same white-and-red the app
+   itself uses, so the page and the product read as one thing. */
+
+:root {
+    --ink: #101014;
+    --ink-2: #4a4a55;
+    --ink-3: #8b8b96;
+    --rule: #e7e7ec;
+    --surface: #ffffff;
+    --surface-2: #f7f7f9;
+    --accent: #e62233;
+    --accent-soft: #fdeef0;
+    --radius: 18px;
+    /* Chips and other small blocks: square enough to read as siblings of the
+       note panel rather than as pills. */
+    --radius-sm: 10px;
+    --measure: 1080px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    margin: 0;
+    background: var(--surface);
+    color: var(--ink);
+    font: 400 17px/1.65 -apple-system, BlinkMacSystemFont, "SF Pro Text",
+          "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    /* A token with no break opportunity in it runs out of its column and takes
+       the whole page sideways with it. The repository URL in the FAQ is 43
+       characters and did exactly that: 4px of horizontal scroll on a 390px
+       phone, in twenty-three of the twenty-five languages, on a page whose
+       other three are fine. `break-word` rather than `anywhere` because it
+       breaks only the word that would otherwise overflow — ordinary prose in
+       a narrow column is left alone. */
+    overflow-wrap: break-word;
+}
+
+/* Headings are where the long words are: German and Russian both put a single
+   compound noun where English has two or three short ones, and at 390px
+   "Datenschutzerklärung" and "Политика конфиденциальности" were both wider
+   than the box drawn around them. Every page declares its language, so the
+   browser can hyphenate them properly instead of breaking mid-word; the rule
+   above stays as the backstop for a language it has no dictionary for. */
+h1, h2, h3 {
+    hyphens: auto;
+}
+
+.wrap {
+    max-width: var(--measure);
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* ---------- nav ---------- */
+
+.nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.86);
+    backdrop-filter: saturate(180%) blur(14px);
+    border-bottom: 1px solid var(--rule);
+}
+
+.nav .wrap {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    height: 60px;
+}
+
+.brand {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    color: var(--ink);
+}
+
+.brand img { width: 26px; height: 26px; border-radius: 7px; }
+
+/* The wordmark is a link home, and at 28px it was the smallest tap target on
+   the page. The bar is 60px, so a 44px hit area fits inside it without moving
+   anything: the extra height is centred on text that keeps its own size. */
+.brand { min-height: 44px; }
+
+/*
+ * The row is one line in every language or it is broken, and English is the
+ * only language it was ever checked in. Measured across the twenty-five built
+ * locales at a 1200px container, where the links have about 900px to work
+ * with: Russian asked for 1094, Mexican Spanish 1032, Italian 996, Thai 982,
+ * Vietnamese 959, German 918. English itself asked for 766 — passing, with a
+ * seventh of the width to spare, which is not a margin so much as a
+ * coincidence. Ten links do not fit. Three things together make the row
+ * unbreakable rather than merely wider:
+ *
+ *   nowrap   — a link is a word, not a paragraph. Without this "How it works"
+ *              breaks over three lines inside a 60px bar and that is the
+ *              stacking, not the row wrapping: the row never wrapped, the
+ *              labels did.
+ *   shrink   — `min-width: 0` lets the row give way instead of shouldering the
+ *              language picker off the right edge, which is what a flex item
+ *              does by default when it will not fit.
+ *   scroll   — whatever is still too long slides sideways under the thumb.
+ *
+ * Scrolling is the backstop and not the design: with five links, every
+ * language fits outright down to a tablet. It exists so that the twenty-sixth
+ * language cannot silently break the bar. Below a tablet it is not enough on
+ * its own and the row becomes a menu — see the 640px breakpoint.
+ */
+.nav nav {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
+
+.menu-links {
+    display: flex;
+    align-items: center;
+    /* 1.5vw, not 1.7: at an iPad's 768px portrait the wider spacing left the
+       Russian and Mexican Spanish rows about 19px over, which is four gaps'
+       worth. Measured, not guessed. */
+    gap: clamp(11px, 1.5vw, 22px);
+    min-width: 0;
+    overflow-x: auto;
+    /* The bar is 60px and a scrollbar gutter inside it would show as a grey
+       line under the links on every platform that reserves one. */
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+.menu-links::-webkit-scrollbar { display: none; }
+
+/*
+ * From a tablet up the disclosure is not one: the button is hidden and the
+ * panel is forced open, so the markup that is a menu on a phone is an ordinary
+ * row of links here. Three declarations because browsers hide a closed
+ * `<details>` two different ways — older ones with `display: none` on the
+ * content, current ones with `content-visibility` on `::details-content` —
+ * and both have to be answered. Checked in Chromium and in WebKit, which is
+ * the one that ships on the phone this is mostly read on.
+ *
+ * Scoped to 641px up. Unscoped, the `:not([open])` rule also fired on a phone,
+ * where nothing overrode it, so the dropdown panel was painted on load and the
+ * button could not close it again.
+ */
+@media (min-width: 641px) {
+    .nav .menu > summary { display: none; }
+    .nav .menu:not([open]) > .menu-links { display: flex; }
+
+    .nav .menu::details-content {
+        content-visibility: visible;
+        display: contents;
+        block-size: auto;
+    }
+}
+
+.nav nav a {
+    color: var(--ink-2);
+    text-decoration: none;
+    font-size: clamp(13px, 1.2vw, 15px);
+    white-space: nowrap;
+}
+
+.nav nav a:hover { color: var(--accent); }
+
+/* The page you are already on, so a nine-item nav still says where you are. */
+.nav nav a[aria-current] { color: var(--ink); font-weight: 600; }
+
+/* ---------- language picker ---------- */
+
+/* A <details> rather than a <select> or a menu built in script: every language
+   is a real link to a real page, so it works with JavaScript off and a crawler
+   can follow all twenty-five. */
+
+.lang { position: relative; margin-left: 4px; }
+
+.lang summary {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    /* The default disclosure triangle would sit next to a globe and read as a
+       second, conflicting affordance. */
+    list-style: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    color: var(--ink-2);
+    white-space: nowrap;
+}
+
+.lang summary::-webkit-details-marker { display: none; }
+.lang summary:hover { color: var(--accent); border-color: var(--accent); }
+.lang[open] summary { color: var(--accent); border-color: var(--accent); }
+
+.lang ul {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 6px);
+    margin: 0;
+    padding: 6px;
+    list-style: none;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-sm);
+    box-shadow: 0 12px 30px rgba(16, 16, 20, 0.12);
+    /* Twenty-five entries is taller than a phone. Two columns and a scroll
+       cap keep the list on screen without hiding anything behind a fold. */
+    columns: 2;
+    column-gap: 4px;
+    max-height: 62vh;
+    overflow-y: auto;
+    /* A backstop, not the fix — the menu measures 298px and a phone is wider
+       than that. What put it off screen was the anchor, not the width (see the
+       640px breakpoint). This only matters if the list ever grows a third
+       column or a longer endonym, and it fails safe: whatever it cannot fit is
+       clipped rather than pushed off the left edge, where there is no
+       horizontal scroll to chase it with. */
+    max-width: min(calc(100vw - 28px), 420px);
+    box-sizing: border-box;
+    z-index: 20;
+}
+
+.lang li { break-inside: avoid; }
+
+.lang li a {
+    display: block;
+    padding: 5px 12px;
+    border-radius: 7px;
+    font-size: 14px;
+    line-height: 1.35;
+    color: var(--ink-2);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.lang li a:hover { background: var(--surface-2); color: var(--accent); }
+.lang li a[aria-current] { color: var(--ink); font-weight: 600; }
+
+/* The offer bar. Shown only to a visitor whose browser asks for a language we
+   publish, and only on the English page — it offers, it never redirects. */
+
+.lang-offer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 9px 16px;
+    background: var(--accent-soft);
+    border-bottom: 1px solid var(--rule);
+    font-size: 15px;
+}
+
+.lang-offer a { color: var(--accent); font-weight: 600; }
+
+.lang-offer button {
+    background: none;
+    border: 0;
+    padding: 0 4px;
+    font-size: 20px;
+    line-height: 1;
+    color: var(--ink-3);
+    cursor: pointer;
+}
+
+/* Right-to-left. Only Arabic reaches this, and only the few places where the
+   page pins something to a side need saying — the rest follows `dir`. */
+
+[dir="rtl"] .lang ul { right: auto; left: 0; }
+[dir="rtl"] .nav nav { margin-left: 0; margin-right: auto; }
+
+/* ---------- hero ---------- */
+
+.hero { padding: 84px 0 68px; text-align: center; }
+
+.hero img.mark {
+    width: 96px;
+    height: 96px;
+    border-radius: 22px;
+    box-shadow: 0 12px 34px rgba(230, 34, 51, 0.16);
+    margin-bottom: 28px;
+}
+
+/* Line art on paper, floating: no card, no border, no shadow — just the drawing
+   on its own white ground. That ground stays white in dark mode rather than
+   being inverted, since inverting a pencil drawing gives a photographic
+   negative; only the caption follows the theme. */
+.hero-art {
+    margin: 40px auto 0;
+    max-width: 720px;
+}
+
+.hero-art img {
+    display: block;
+    width: 100%;
+    height: auto;
+    background: #fff;
+}
+
+.hero-art figcaption {
+    margin-top: 14px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-3, var(--ink-2));
+}
+
+h1 {
+    font-size: clamp(38px, 6vw, 62px);
+    line-height: 1.06;
+    letter-spacing: -0.035em;
+    font-weight: 700;
+    margin: 0 0 18px;
+}
+
+.lede {
+    font-size: clamp(18px, 2.2vw, 21px);
+    color: var(--ink-2);
+    max-width: 660px;
+    margin: 0 auto 34px;
+}
+
+.cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 13px 22px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    border: 1px solid transparent;
+    transition: transform 0.12s ease, background 0.12s ease;
+}
+
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: #cc1c2c; }
+
+.btn-ghost {
+    background: var(--surface);
+    color: var(--ink);
+    border-color: var(--rule);
+}
+
+.btn-ghost:hover { border-color: var(--ink-3); }
+
+.note {
+    margin-top: 18px;
+    font-size: 14px;
+    color: var(--ink-3);
+}
+
+/* ---------- sections ---------- */
+
+section { padding: 68px 0; border-top: 1px solid var(--rule); }
+
+h2 {
+    font-size: clamp(27px, 3.4vw, 36px);
+    letter-spacing: -0.025em;
+    margin: 0 0 12px;
+    font-weight: 700;
+}
+
+.sub {
+    color: var(--ink-2);
+    max-width: 680px;
+    margin: 0 0 38px;
+}
+
+/* ---------- screenshots ---------- */
+
+/* A device screenshot is tall and narrow; the copy beside it is neither. Below
+   the breakpoint the two stack and the shot is capped so a phone screenshot
+   does not become a full page of scrolling on a phone. */
+
+.showcase {
+    display: grid;
+    grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+    gap: 44px;
+    align-items: start;
+}
+
+.shot { margin: 0; }
+
+.shot img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 22px;
+    border: 1px solid var(--rule);
+    background: var(--surface);
+}
+
+/* The watch captures are small and square-ish; the phone corner radius on them
+   reads as a mistake, and stretched to a phone's width they are unreadable. */
+.shot.watch img {
+    border-radius: 14px;
+    max-width: 240px;
+}
+
+/* A note about what the picture is, not a title for it — smaller than the
+   gallery's captions because nothing here is being labelled, only qualified. */
+.showcase .shot figcaption {
+    margin-top: 12px;
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--ink-3, var(--ink-2));
+}
+
+.showcase-copy h3 {
+    font-size: 19px;
+    margin: 0 0 10px;
+}
+
+.showcase-copy > p {
+    color: var(--ink-2);
+    margin: 0 0 26px;
+}
+
+.steps {
+    margin: 0;
+    display: grid;
+    gap: 4px;
+    border-top: 1px solid var(--rule);
+    padding-top: 20px;
+}
+
+.steps dt {
+    font-weight: 600;
+    font-size: 14.5px;
+    color: var(--ink);
+}
+
+.steps dd {
+    margin: 0 0 16px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-2);
+}
+
+.steps dd:last-child { margin-bottom: 0; }
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 34px 26px;
+}
+
+.gallery figcaption {
+    margin-top: 14px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--ink-2);
+}
+
+/* The label sits on its own line above the sentence rather than running into
+   it, so the grid can be scanned by heading alone. */
+.gallery figcaption b {
+    display: block;
+    color: var(--ink);
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+
+.gallery .shot.watch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+@media (max-width: 720px) {
+    .showcase { grid-template-columns: 1fr; gap: 30px; }
+    .showcase .shot img { max-width: 280px; margin: 0 auto; }
+}
+
+/* ---------- cards ---------- */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(272px, 1fr));
+    gap: 24px;
+}
+
+/*
+ * A section stacks a card grid, a callout and a spec table as plain siblings,
+ * and none of them carried a bottom margin — so the grid ended flush against
+ * the callout and the callout flush against the table, reading as one
+ * undifferentiated block. The space belongs to the block that precedes it
+ * rather than the one that follows, so that a section opening with a card does
+ * not gain a gap under its own subtitle. The last block in a section drops it
+ * again and lets the section's own padding be the only thing at the bottom.
+ */
+.grid,
+.callout,
+.spec,
+.showcase {
+    margin-bottom: 40px;
+}
+
+.wrap > :last-child {
+    margin-bottom: 0;
+}
+
+.card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 26px 24px;
+}
+
+.card i {
+    font-size: 26px;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 14px;
+}
+
+.card h3 {
+    font-size: 17px;
+    margin: 0 0 8px;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+}
+
+.card p { margin: 0; color: var(--ink-2); font-size: 15px; line-height: 1.6; }
+
+/* ---------- compatibility ---------- */
+
+.chips { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 26px; }
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 15px;
+    border-radius: var(--radius-sm);
+    background: var(--accent-soft);
+    color: #99101d;
+    font-size: 14.5px;
+    font-weight: 550;
+}
+
+.chip i { font-size: 14px; }
+
+.callout {
+    background: var(--surface-2);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 22px 26px;
+}
+
+.callout h3 { margin: 0 0 8px; font-size: 17px; }
+.callout p { margin: 0 0 10px; color: var(--ink-2); font-size: 15px; }
+.callout p:last-child { margin-bottom: 0; }
+
+/* ---------- spec table ---------- */
+
+.spec { width: 100%; border-collapse: collapse; font-size: 15px; }
+
+.spec th, .spec td {
+    text-align: left;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+}
+
+.spec th { width: 210px; font-weight: 600; color: var(--ink); }
+.spec td { color: var(--ink-2); }
+.spec code { font-size: 13.5px; background: var(--surface-2); padding: 1px 6px; border-radius: 5px; }
+
+/* ---------- footer ---------- */
+
+footer {
+    border-top: 1px solid var(--rule);
+    padding: 40px 0 60px;
+    color: var(--ink-3);
+    /* One line on a desktop wrap. The string is ~135 characters, which is
+       about 760px at this size — it wraps on phones and that is fine. */
+    font-size: 12px;
+    letter-spacing: 0.01em;
+}
+
+footer a { color: var(--ink-2); }
+
+@media (max-width: 640px) {
+    /* The nav was `display: none` here once, which is why the phone was the
+       worst of the three sizes rather than the one that merely wrapped. Then
+       it was a row that scrolled sideways under a fade, which measured as
+       passing and looked broken: a 390px bar showed two links and a cut-off
+       third, and "Get it" — the one link with a job — was never among them.
+       Five links do not fit a phone in English, and English is the short one.
+
+       So on a phone they are a menu. The button is 40px, every link is on
+       screen once it is open, and nothing is truncated in any of the
+       twenty-five languages. Nothing here overrides the disclosure: the
+       browser's own closed and open behaviour is what the rules above were
+       careful to only suspend from 641px up. */
+    .nav .menu > summary {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        list-style: none;
+        cursor: pointer;
+        padding: 6px 10px;
+        border: 1px solid var(--rule);
+        border-radius: var(--radius-sm);
+        font-size: 14px;
+        color: var(--ink-2);
+        white-space: nowrap;
+    }
+
+    /* 44px is the floor Apple sets for anything a finger has to hit, and
+       these two are the only controls in the bar. Padding alone left them at
+       37px — legible, and a miss often enough to matter on the move. */
+    .nav .menu > summary,
+    .lang summary {
+        min-height: 44px;
+    }
+
+    .nav .menu > summary::-webkit-details-marker { display: none; }
+    .nav .menu[open] > summary { color: var(--accent); border-color: var(--accent); }
+
+    /* The panel hangs off the bar rather than pushing it open, so opening the
+       menu never moves the page under the thumb that opened it. */
+    .nav .menu { position: relative; }
+
+    .nav .menu > .menu-links {
+        position: absolute;
+        right: 0;
+        top: calc(100% + 6px);
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 6px;
+        min-width: 190px;
+        background: var(--surface);
+        border: 1px solid var(--rule);
+        border-radius: var(--radius-sm);
+        box-shadow: 0 12px 30px rgba(16, 16, 20, 0.12);
+        overflow: visible;
+        z-index: 20;
+    }
+
+    [dir="rtl"] .nav .menu > .menu-links { right: auto; left: 0; }
+
+    /* 15px, not the row's clamped 13: this is a list to be tapped now, not a
+       row of labels being squeezed onto a line. */
+    /* Flex rather than block for the sake of the last pixel: 9px of padding
+       around a 15px line came to 43px, and a floor that misses by one is worse
+       than no floor at all because it reads as deliberate. */
+    .nav .menu > .menu-links a {
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 9px 12px;
+        border-radius: 7px;
+        font-size: 15px;
+    }
+
+    .nav .menu > .menu-links a:hover { background: var(--surface-2); color: var(--accent); }
+    .nav .menu > .menu-links a[aria-current] { color: var(--ink); font-weight: 600; }
+
+    /* The picker keeps its globe and drops its word. "Português (Brasil)" spelled
+       out costs about a third of a 390px bar, and it is naming the language the
+       page is already written in — the one thing a reader can see for
+       themselves. The name is still on the button for a screen reader, which
+       cannot see it. */
+    .lang { flex: none; }
+    .lang summary { padding: 6px 9px; }
+    .lang summary span { display: none; }
+
+    /* The picker is a menu of twenty-five discrete targets, so 44px applies to
+       every row of it, not just the button that opens it. The panel is already
+       two columns capped at 62vh with its own scroll, so the taller rows cost
+       scrolling inside the menu and nothing on the page behind it. */
+    /* One column on a phone. Two columns plus a height cap is a fragmentation
+       trap: once 44px rows make the list taller than 62vh, multicol answers by
+       adding a third column off the right edge rather than by scrolling, and
+       the panel overflows sideways where there is nothing to chase it with.
+       One column can only ever grow downwards, which is what the scroll is
+       for. */
+    .lang ul { columns: auto; }
+
+    .lang li a {
+        /* Block, not flex: these rows sit in a two-column panel and `nowrap` in
+           a flex container refuses to shrink to the column, which pushes the
+           endonym out past the panel edge. Padding and an explicit line-height
+           reach the same 44px without leaving the normal flow -- 20 + 12 + 12. */
+        padding: 12px;
+        line-height: 20px;
+    }
+
+    /* The last line of each card is that card's call to action -- a link alone
+       in its own paragraph, not a link inside a sentence. At 18px it was the
+       smallest thing on the page a finger was meant to hit. Inline-flex keeps
+       the underline the width of the words while the hit area grows around
+       them. */
+    .card p:last-child > a:only-child {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+    }
+    .hero { padding: 56px 0 44px; }
+
+    /* On a phone the page is one column and the only thing separating the text
+       from the edge of the glass is this padding, so it gets more here than the
+       desktop measure needs — 24px reads as cramped at 390px in a way it does
+       not at 1200px. */
+    .wrap { padding: 0 30px; }
+
+    /* Both of these are clamped, and both clamps bottom out well before the
+       narrowest phone: `6vw` stops mattering below 633px and `2.2vw` below
+       818px, so every phone was getting the same 38px heading and 18px lede
+       regardless of width. A point and a half off each, and more room between
+       them, is what the extra side padding costs and what a 390px column can
+       carry without the heading wrapping to four lines. */
+    h1 { font-size: 35px; margin-bottom: 20px; }
+    .lede { font-size: 16.5px; margin-bottom: 30px; }
+
+    .spec th { width: auto; display: block; border: 0; padding-bottom: 2px; }
+    .spec td { display: block; padding-top: 0; }
+}
+
+/* ---------- plain list ---------- */
+
+/* Used where a bulleted list is the honest shape — the privacy page's list of
+   things the app does not do reads as a list and would be worse as prose. */
+
+.plain {
+    margin: 0 0 38px;
+    padding-left: 1.15rem;
+    max-width: 680px;
+    color: var(--ink-2);
+    display: grid;
+    gap: 8px;
+    line-height: 1.6;
+}

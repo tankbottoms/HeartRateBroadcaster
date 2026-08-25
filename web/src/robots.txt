@@ -1,0 +1,25 @@
+# Indexing is open. The site answers on two hostnames — its own domain and
+# heart-rate-broadcaster.atsignhandle.workers.dev — which is a duplicate-content
+# problem that robots.txt cannot solve, because this file is served from both
+# and cannot say "not that one". Every page carries a rel=canonical pointing at
+# heart-rate.atsignhandle.xyz instead, which is what consolidates the two into
+# one result. The sitemap lists only the canonical host.
+#
+# Submitting the sitemap in Google Search Console is still a separate act. A
+# sitemap does not trigger a crawl; it only tells a crawler that has already
+# arrived what else to look at.
+
+User-agent: *
+
+# Stays after launch. The press kit is an upload staging area for App Store
+# Connect, not something anyone should reach from a search result. Its pages
+# also carry a noindex meta tag, because robots.txt asks and meta tags tell.
+Disallow: /press/
+
+# Demo videos filmed for one App Review submission. Reachable by anyone with the
+# link, because a link App Review cannot follow is itself a rejection — but it
+# answers a rejection rather than describing the product, and it would compete
+# with the real pages for the app's own name. Also carries noindex.
+Disallow: /review/
+
+Sitemap: https://heart-rate.atsignhandle.xyz/sitemap.xml

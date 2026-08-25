@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!--
+      Nothing leaves the device. Heart rate is read from HealthKit and written
+      to a Bluetooth characteristic that only devices the user has paired can
+      subscribe to; there is no server, no analytics, and no third-party SDK.
+      So both collection and tracking are empty rather than merely minimal.
+    -->
+    <key>NSPrivacyTracking</key>
+    <false/>
+    <key>NSPrivacyTrackingDomains</key>
+    <array/>
+    <key>NSPrivacyCollectedDataTypes</key>
+    <array/>
+
+    <!--
+      UserDefaults is the only required-reason API this bundle touches, in
+      AppSettings, and only for this app's own preferences — broadcast name,
+      cadence, source, display toggles. CA92.1 is the reason code for exactly
+      that: access limited to the app's own container.
+    -->
+    <key>NSPrivacyAccessedAPITypes</key>
+    <array>
+        <dict>
+            <key>NSPrivacyAccessedAPIType</key>
+            <string>NSPrivacyAccessedAPICategoryUserDefaults</string>
+            <key>NSPrivacyAccessedAPITypeReasons</key>
+            <array>
+                <string>CA92.1</string>
+            </array>
+        </dict>
+    </array>
+</dict>
+</plist>

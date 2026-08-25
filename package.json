@@ -1,0 +1,15 @@
+{
+  "name": "heart-rate-broadcaster-tools",
+  "private": true,
+  "type": "module",
+  "description": "Lint config for the TypeScript under scripts/. The app itself is Swift; nothing here is a build dependency of it.",
+  "scripts": {
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix"
+  },
+  "devDependencies": {
+    "@oxlint/plugins": "1.78.0",
+    "oxlint": "1.78.0",
+    "playwright-core": "^1.62.1"
+  }
+}

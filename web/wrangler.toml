@@ -1,0 +1,51 @@
+# Static-assets Worker. No server code and no `main` entrypoint — Cloudflare's
+# asset server answers every path directly. `dist/` is written by
+# `bun scripts/site.ts` and is gitignored, so run that before deploying.
+#
+# The name is load-bearing: it becomes the hostname under the account's
+# workers.dev subdomain, giving heart-rate-broadcaster.atsignhandle.workers.dev.
+#
+# The account is equally load-bearing, and it is deliberately not written here.
+# Several accounts are reachable from the same API token and only one has the
+# `atsignhandle` workers.dev subdomain and the atsignhandle.xyz zone; picking the
+# wrong one silently publishes to a different hostname. It comes from
+# CLOUDFLARE_ACCOUNT_ID instead — see .env.example — because an account id is not
+# a secret but it does name the account, and this file is committed.
+name = "heart-rate-broadcaster"
+compatibility_date = "2026-08-01"
+workers_dev = true
+
+# The canonical hostname. `custom_domain` makes wrangler create the DNS record
+# and the certificate itself, which is the whole difference between this and a
+# plain route — a route on a hostname with no record answers nothing.
+#
+# workers.dev stays on deliberately rather than being switched off. It is what
+# the version currently in App Review carries in its three listing URLs, and a
+# link App Review cannot follow is a rejection. Every page canonicalises to the
+# hostname below, so the two do not compete in search.
+#
+# `hrb` is the short one, for typing on a phone and for printing in the app's
+# About screen. It serves the identical site rather than redirecting: a custom
+# domain is a hostname the Worker answers on, and both answer the same assets.
+# Every page's canonical link points at the long hostname regardless of which
+# one was typed, so search sees one site, not two.
+routes = [
+  { pattern = "heart-rate.atsignhandle.xyz", custom_domain = true },
+  { pattern = "hrb.atsignhandle.xyz", custom_domain = true },
+]
+
+[assets]
+# The generated tree, and nothing else. This used to be "." with a `.assetsignore`
+# listing everything that must not ship — the English originals, the translation
+# dictionaries, this file with the account id in it. An exclusion list fails
+# open: anything added to the directory and not added to the list gets published.
+directory = "dist"
+# Deliberately a plain 404 rather than "single-page-application". This is two
+# static pages, not an SPA with client-side routing — and the SPA setting answers
+# every unknown path with the homepage at HTTP 200. A crawler reads that as an
+# infinite supply of distinct URLs all containing identical content, which is
+# the textbook soft-404 that suppresses a small site's ranking.
+not_found_handling = "none"
+
+[observability.logs]
+enabled = false

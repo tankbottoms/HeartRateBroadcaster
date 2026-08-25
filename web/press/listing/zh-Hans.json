@@ -1,0 +1,9 @@
+{
+  "subtitle": "自行车码表心率",
+  "description": "HeartRate Broadcaster 将您的 iPhone 转变为标准蓝牙心率监测器，数据源自您佩戴的传感器。\n\n您的 Apple Watch 和 AirPods Pro 3 可连续测量心率，但其他设备无法读取这些数据。训练应用和码表通常期望接收蓝牙胸带的信号。HeartRate Broadcaster 在此二者之间架起桥梁：它从您的手表和 AirPods 读取实时心率，将其整合为单一读数，并以标准蓝牙 LE 心率服务的形式重新广播。您的训练应用会将其视为普通胸带。\n\n双传感器，单一数值\n当手表和 AirPods 同时报告数据时，应用会对一致读数取平均值，并在数据不一致时剔除异常值，优先选择更接近已有趋势的数值。码表始终只显示一个传感器数据。“传感器一致性”行会显示哪些传感器处于活跃状态、它们之间的差异以及最终输出的数值——因此您无需盲目信任应用数据。\n\n骑行时一目了然\n“实时活动”在锁屏和灵动岛显示当前心率（BPM）、数据来源以及码表是否已连接。画中画功能使心率数值悬浮于训练应用之上。在手表上，长按一秒可锁定触摸屏，防止骑行服袖口或把带误触；再次按压即可解锁。\n\n揭示真相的诊断信息\n通过标识符列出已连接设备、每个订阅者接收的帧数、实时帧率、最后一帧的确切字节数据以及发送时间。当出现问题时，您可以查看链路中哪一半存在故障。权限屏幕显示应用所需的所有权限、当前设置状态以及直接更改权限的链接。\n\n无法实现的功能\nApple 未提供允许第三方应用读取蓝牙胸带或其他手机传感器的 API，因此本应用无法导入此类数据。它仅通过蓝牙 LE 广播——ANT+ 是 iPhone 不具备的独立无线电频段。\n\n兼容 MyWhoosh、Zwift、TrainerRoad、Wahoo 及支持蓝牙的 Garmin Edge 码表。需要 iOS 26 及 watchOS 11（用于手表应用）。",
+  "keywords": "心率,蓝牙,骑行,zwift,mywhoosh,胸带,ANT,手表,airpods,广播,训练台,BLE,传感器",
+  "promotionalText": "您的 Apple Watch 已可测量心率。此应用将该数据发送至您的码表、训练应用或任何支持蓝牙胸带连接的设备。",
+  "marketingUrl": "https://heart-rate.atsignhandle.xyz/",
+  "supportUrl": "https://heart-rate.atsignhandle.xyz/",
+  "privacyPolicyUrl": "https://heart-rate.atsignhandle.xyz/privacy.html"
+}

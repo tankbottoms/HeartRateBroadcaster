@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>WKApplication</key>
+    <true/>
+    <key>WKWatchOnly</key>
+    <false/>
+    <!-- workout-processing is what keeps HKWorkoutSession sampling heart rate
+         with the screen off. Without it the watch suspends and the broadcast
+         dies the moment the wrist drops. -->
+    <key>WKBackgroundModes</key>
+    <array>
+        <string>workout-processing</string>
+    </array>
+    <!-- English base values for the two Health prompts. The translations are in
+         InfoPlist.xcstrings and still win, because <lang>.lproj/InfoPlist.strings
+         overrides the same key here at runtime. Both are required: with the
+         catalog alone the key is missing from Info.plist and App Store
+         validation returns WARNING ITMS-90683 for this bundle, which is also
+         what makes a HealthKit authorization request fail instead of prompt. -->
+    <key>NSHealthShareUsageDescription</key>
+    <string>HeartRate Broadcaster reads your heart rate so it can be relayed to your bike computer or fitness device.</string>
+    <key>NSHealthUpdateUsageDescription</key>
+    <string>HeartRate Broadcaster records a workout session so heart rate can be sampled continuously while you ride.</string>
+</dict>
+</plist>

@@ -1,0 +1,9 @@
+{
+  "subtitle": "バイクコンピュータの心拍数",
+  "description": "HeartRate Broadcasterは、すでに装着しているセンサーからデータを受け取り、iPhoneを標準的なBluetooth心拍モニターに変えます。\n\nApple WatchとAirPods Pro 3は継続的に心拍数を測定しますが、それ以外のデバイスではそれを読み取ることができません。トレーニングアプリやバイクコンピュータは、Bluetoothチェストストラップを想定しています。HeartRate Broadcasterはこの2つを橋渡しします：ウォッチとAirPodsからリアルタイムの心拍数を読み取り、それらを1つの数値に統合して、標準的なBluetooth LE心拍サービスとして再送信します。トレーニングアプリからは通常のストラップとして認識されます。\n\n2つのセンサー、1つの数値\nウォッチとAirPodsの両方がデータを送信する場合、アプリは一致する読み取り値を平均化し、不一致の場合は外れ値を拒否します。これは、すでに把握している傾向に近い方を選択します。ヘッドユニットは常に1つのセンサーのみを表示します。「センサーの合意」行には、どのセンサーが稼働中か、それらの差がどれくらいか、そしてどの数値が送信されたかが表示されるため、アプリの表示を信じる必要はありません。\n\n走行中に一目で確認可能\nLive Activityにより、現在のBPM、そのソース、およびヘッドユニットが実際にサブスクライブしているかどうかを、ロック画面とDynamic Islandに表示できます。Picture in Pictureにより、トレーニングアプリの上に数値を浮かべたままにできます。ウォッチでは、1秒間の長押しでタッチスクリーンをジャージの袖やバーテープへの接触からロックし、もう一度押すと解除します。\n\n真実を伝える診断情報\n識別子ごとの接続デバイス、購読者ごとの送信フレーム数、ライブフレームレート、最後のフレームの正確なバイトデータ、および最終送信からの経過時間。何かが正常に動作していない場合、リンクのどちら側に問題があるかを確認できます。権限画面には、アプリが必要とするすべての権限、現在の設定、および変更するための直接リンクが表示されます。\n\n機能しないこと\nAppleは、サードパーティアプリがBluetoothチェストストラップや他のスマートフォンのセンサーを読み取るためのAPIを提供していないため、このアプリではインポートできません。Bluetooth LEのみで送信します。ANT+はiPhoneに搭載されていない別の無線です。\n\nMyWhoosh、Zwift、TrainerRoad、Wahoo、Bluetooth対応のGarmin Edgeデバイスと互換性があります。iOS 26およびウォッチアプリにはwatchOS 11が必要です。",
+  "keywords": "心拍数,bluetooth,サイクリング,zwift,mywhoosh,ストラップ,ANT,ウォッチ,airpods,送信,トレーナー,BLE,センサー",
+  "promotionalText": "Apple Watchはすでに心拍数を測定しています。この数値を、Bluetoothチェストストラップとペアリングするバイクコンピュータ、トレーニングアプリ、その他のデバイスに表示します。",
+  "marketingUrl": "https://heart-rate.atsignhandle.xyz/",
+  "supportUrl": "https://heart-rate.atsignhandle.xyz/",
+  "privacyPolicyUrl": "https://heart-rate.atsignhandle.xyz/privacy.html"
+}

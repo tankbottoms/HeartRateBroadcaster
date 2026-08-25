@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — HeartRate Broadcaster</title>
+<meta name="description" content="HeartRate Broadcaster collects no data. Heart rate never leaves your own devices.">
+<link rel="canonical" href="https://heart-rate.atsignhandle.xyz/privacy.html">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#e62233">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="HeartRate Broadcaster">
+<meta property="og:url" content="https://heart-rate.atsignhandle.xyz/privacy.html">
+<meta property="og:title" content="Privacy Policy — HeartRate Broadcaster">
+<meta property="og:description" content="HeartRate Broadcaster collects no data. Heart rate never leaves your own devices.">
+<meta property="og:image" content="https://heart-rate.atsignhandle.xyz/static/img/og.png">
+<link rel="icon" href="static/img/icon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="static/fontawesome/css/fontawesome.min.css">
+<link rel="stylesheet" href="static/fontawesome/css/thin.min.css">
+<link rel="stylesheet" href="static/css/site.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="/index.html"><img src="static/img/icon.png" alt="">HRB</a>
+    <!-- The same nav the home page carries, in the same order. Links point at
+         /index.html#anchor rather than /#anchor so the localiser rewrites them
+         to /<locale>/index.html#anchor — a bare "/" would drop a Japanese
+         reader onto the English home page. -->
+    <nav>
+      <!-- See index.html: one <details> is the inline row from a tablet up
+           and a menu below that, because five links do not fit a phone in
+           any language. -->
+      <details class="menu">
+        <summary><i class="fat fa-bars" aria-hidden="true"></i><span>Menu</span></summary>
+        <div class="menu-links">
+          <a href="/index.html#how">How it works</a>
+          <a href="/index.html#screens">Screens</a>
+          <a href="/index.html#features">Features</a>
+          <a href="/faq.html">FAQ</a>
+          <a href="/index.html#get">Get it</a>
+        </div>
+      </details>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <div class="wrap hero">
+    <h1>Privacy Policy</h1>
+    <p class="lede">
+      HeartRate Broadcaster collects nothing, stores nothing on a server, and has
+      no server to store it on.
+    </p>
+    <p class="note">Last updated 11 August 2026.</p>
+  </div>
+
+  <section>
+    <div class="wrap">
+      <h2>What the app does with your data</h2>
+
+      <div class="grid">
+
+        <div class="card">
+          <i class="fat fa-heart-pulse"></i>
+          <h3>Heart rate</h3>
+          <p>Read from HealthKit on your iPhone and Apple Watch, held in memory
+          only for as long as the app is running, and written to a Bluetooth
+          characteristic that only devices you have paired can subscribe to. It
+          is never written to a file, never uploaded, and is gone when the app
+          closes.</p>
+        </div>
+
+        <div class="card">
+          <i class="fat fa-sliders"></i>
+          <h3>Your settings</h3>
+          <p>Broadcast name, source, cadence, and display toggles are stored in
+          the app's own preferences on your device. They stay there. They are
+          not part of any account, because there are no accounts.</p>
+        </div>
+
+        <div class="card">
+          <i class="fat fa-bluetooth"></i>
+          <h3>Bluetooth</h3>
+          <p>The app acts as a Bluetooth peripheral. It advertises a heart rate
+          service and answers devices that subscribe. It does not scan for or
+          connect to other devices, and Bluetooth gives it no identifying
+          information about whatever subscribed.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>What the app does not do</h2>
+      <ul class="plain">
+        <li>No analytics, telemetry, crash reporting, or usage tracking.</li>
+        <li>No advertising, and no advertising identifier.</li>
+        <li>No third-party SDKs of any kind.</li>
+        <li>No accounts, no sign-in, no email address.</li>
+        <li>No internet requests. Nothing is sent off your own network.</li>
+        <li>Nothing is sold or shared, because nothing is collected.</li>
+      </ul>
+
+      <h2>The virtual shifter</h2>
+      <p class="sub">
+        The one part of the app that touches a network is the virtual shifter,
+        and it is off until you switch it on. Switched on, the app listens on
+        your own Wi-Fi network and announces itself over Bonjour so a cycling
+        app on the same network can connect to it and receive shift commands.
+        The connection is between your two devices only. Nothing is sent to us
+        or to anyone else, no account is involved, and switching the shifter
+        off closes the listener.
+      </p>
+
+      <h2>Health data</h2>
+      <p class="sub">
+        Heart rate read through HealthKit is used solely to display it and to
+        broadcast it to devices you pair. It is not used for advertising or
+        marketing, is not shared with third parties, and is not disclosed to
+        data brokers. You can revoke the app's HealthKit access at any time in
+        Settings › Privacy &amp; Security › Health, or in the Health app under
+        Sharing › Apps. Revoking it stops the readings; nothing is retained.
+      </p>
+
+      <h2>Children</h2>
+      <p class="sub">
+        The app is not directed at children and collects no data from anyone,
+        of any age.
+      </p>
+
+      <h2>Changes</h2>
+      <p class="sub">
+        If this policy changes, the date at the top of this page changes with
+        it. Since the app collects nothing, any change is likely to be a
+        clarification rather than a new practice.
+      </p>
+
+      <h2>Contact</h2>
+      <p class="sub">
+        Questions about this policy can go to
+        <a href="mailto:rooot+privacy@atsignhandle.xyz">rooot+privacy@atsignhandle.xyz</a>.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    &copy; 2026 atsignhandle llc &middot; <a href="/">Home</a> &middot; <a href="/about.html">About</a> &middot; <a href="/faq.html">FAQ</a>
+    <br>
+    Wahoo, KICKR, PowerTap, SRAM, Red, MyWhoosh, Strava, Zwift, Garmin, Apple,
+    Apple Watch and AirPods are trademarks of their respective owners. This app
+    is not affiliated with, endorsed by, or sponsored by any of them.
+    Bluetooth&reg; is a trademark of Bluetooth SIG. Bike Control is an open
+    protocol, implemented here from the public OpenBikeControl specification.
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "subtitle": "자전거 컴퓨터용 심박수",
+  "description": "HeartRate Broadcaster는 이미 착용 중인 센서를 통해 iPhone을 표준 블루투스 심박수 모니터로 변환합니다.\n\nApple Watch와 AirPods Pro 3는 지속적으로 심박수를 측정하지만, 다른 기기에서는 이를 읽을 수 없습니다. 트레이닝 앱과 사이클 컴퓨터는 블루투스 가슴 스트랩을 기대합니다. HeartRate Broadcaster는 이 둘을 연결합니다: 시계와 AirPods에서 실시간 심박수를 읽고, 이를 단일 수치로 통합한 후 표준 블루투스 LE 심박수 서비스로 다시 방송합니다. 트레이닝 앱은 일반적인 스트랩으로 인식합니다.\n\n두 센서, 하나의 수치\n시계와 AirPods 모두 데이터를 보고할 때, 앱은 일치하는 읽기 값을 평균내고 불일치 시 이상치를 거부하여 이미 관찰된 추세에 더 가까운 값을 선호합니다. 헤드 유닛은 항상 하나의 센서만 봅니다. 센서 일치 행에는 활성 센서, 차이 범위, 전송된 수치가 표시되므로 앱의 주장을 맹신할 필요가 없습니다.\n\n주행 중 한눈에 확인\nLive Activity를 통해 현재 BPM, 소스, 헤드 유닛이 실제로 구독 중인지 여부를 잠금 화면과 Dynamic Island에서 확인할 수 있습니다. Picture in Picture는 트레이닝 앱 위에 수치를 계속 표시합니다. 시계에서는 1초간 누르면 재킷 소매나 핸들 테이프 접촉 시 터치 스크린이 잠기고, 다시 누르면 해제됩니다.\n\n진실을 말하는 진단\n식별자별 연결된 장치, 구독자당 전송 프레임, 실시간 프레임 속도, 마지막 프레임의 정확한 바이트, 전송 후 경과 시간 등. 문제가 발생하면 링크의 어느 쪽에 문제가 있는지 확인할 수 있습니다. 권한 화면에는 앱이 필요로 하는 모든 권한, 현재 설정 및 변경을 위한 직접 링크가 표시됩니다.\n\n지원하지 않는 기능\nApple은 서드파티 앱이 블루투스 가슴 스트랩이나 다른 전화기의 센서를 읽을 수 있는 API를 제공하지 않으므로, 이 앱은 이를 가져올 수 없습니다. BLE 블루투스만 방송하며, ANT+는 iPhone에 없는 별도의 라디오입니다.\n\nMyWhoosh, Zwift, TrainerRoad, Wahoo 및 블루투스 지원 Garmin Edge 장치와 호환됩니다. iOS 26 및 시계 앱의 경우 watchOS 11 이상이 필요합니다.",
+  "keywords": "심박수,블루투스,사이클링,zwift,mywhoosh,스트랩,ANT,시계,airpods,방송,트레이너,BLE,센서",
+  "promotionalText": "Apple Watch는 이미 심박수를 측정합니다. 이 기능을 블루투스 가슴 스트랩과 페어링된 사이클 컴퓨터, 트레이너 앱 등 다른 기기에서도 사용할 수 있습니다.",
+  "marketingUrl": "https://heart-rate.atsignhandle.xyz/",
+  "supportUrl": "https://heart-rate.atsignhandle.xyz/",
+  "privacyPolicyUrl": "https://heart-rate.atsignhandle.xyz/privacy.html"
+}

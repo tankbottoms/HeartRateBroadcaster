@@ -1,0 +1,306 @@
+name: HeartRateBroadcaster
+
+options:
+  bundleIdPrefix: xyz.atsignhandle
+  deploymentTarget:
+    # iOS 26.0, not 18.0: `HKLiveWorkoutBuilder` and `HKLiveWorkoutDataSource`
+    # are API_AVAILABLE(ios(26.0)). Apple brought the live workout builder to
+    # iPhone in iOS 26, and that is the only mechanism by which AirPods Pro 3
+    # heart rate reaches an app — there is no dedicated AirPods HR API.
+    iOS: "26.0"
+    watchOS: "11.0"
+  xcodeVersion: "26"
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+  developmentLanguage: en
+  # Generated from scripts/lib/locales.ts — `bun scripts/lib/locales.ts` prints this
+  # list. Editing it here without editing there is how the two drift apart, and
+  # a region missing from this list is simply not built into the bundle: no
+  # error, no warning, just an app that stays English on that device.
+  #
+  # These are the *iOS* spellings. App Store Connect uses different codes for
+  # six of them (Norwegian nb/no is the one that bites), which is the reason
+  # locales.ts carries both.
+  knownRegions:
+    [en, de, fr, it, es, nl, ja, zh-Hans, zh-Hant, ko, sv, da, nb, fi, pl, cs,
+     pt-BR, es-MX, ru, uk, tr, ar, th, id, vi]
+
+configFiles:
+  Debug: build_number.xcconfig
+  Release: build_number.xcconfig
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    SWIFT_STRICT_CONCURRENCY: minimal
+    # Extracts every LocalizedStringKey and String(localized:) in the target
+    # into its String Catalog on each build. Without it the catalogs only ever
+    # contain what someone typed in by hand, and a newly added string silently
+    # ships untranslated in all 24 languages.
+    SWIFT_EMIT_LOC_STRINGS: "YES"
+    # A key that reaches the catalog but never gets a translation should be
+    # visible in the build log rather than at a user. Warning, not error: the
+    # translation pass runs after extraction, so a clean build is impossible on
+    # the first pass by construction.
+    LOCALIZED_STRING_MACRO_NAMES: "NSLocalizedString CFCopyLocalizedString"
+    MARKETING_VERSION: "1.0"
+    # DEVELOPMENT_TEAM is deliberately absent. It is not a credential — it is
+    # embedded in every shipped IPA's provisioning profile — but it identifies
+    # the Apple Developer account, and this file is the one most likely to be
+    # read by someone who is not on it. It comes from `signing.xcconfig`, which
+    # is gitignored and generated from `apple-project.json` by
+    # `scripts/xcode/gen-xcconfig.sh`; `build_number.xcconfig` includes it.
+    CODE_SIGN_STYLE: Automatic
+
+targets:
+  # ---------------------------------------------------------------- iOS app
+  HeartRateBroadcaster:
+    type: application
+    platform: iOS
+    deploymentTarget: "26.0"
+    sources:
+      - HeartRateBroadcaster
+      - Shared
+      - LiveActivity
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: xyz.atsignhandle.heart-rate-broadcaster
+        CODE_SIGN_ENTITLEMENTS: HeartRateBroadcaster/HeartRateBroadcaster.entitlements
+        GENERATE_INFOPLIST_FILE: true
+        # Stays a build setting, and stays English: it is the product name, the
+        # same one on the App Store listing and on the home screen in every
+        # region. Translating it would leave a user searching for the name they
+        # installed under and not finding it.
+        INFOPLIST_KEY_CFBundleDisplayName: "HeartRate Broadcaster"
+        # The three usage strings used to live here too. They moved to
+        # HeartRateBroadcaster/InfoPlist.xcstrings, because a build setting is
+        # one value for every language — and a permission prompt is the single
+        # most important sentence the app ever shows. Setting them in both
+        # places is not additive: the build setting wins and the catalog is
+        # silently ignored, so they must not come back here *as build settings*.
+        # They do have to exist in the Info.plist itself — see `info:` below.
+        INFOPLIST_KEY_UILaunchScreen_Generation: true
+        INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: false
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown"
+        # An iPad has no natural "up", and refusing landscape there is what the
+        # "all interface orientations must be supported" warning is about. The
+        # phone stays portrait: it lives clamped to a set of handlebars.
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        # HealthKit needs no entitlement on iOS beyond the usage strings, and
+        # Bluetooth has no entitlement at all — only a usage string plus the
+        # bluetooth-peripheral background mode below. All three now come from
+        # InfoPlist.xcstrings; see the note above.
+        TARGETED_DEVICE_FAMILY: "1,2"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        SUPPORTED_PLATFORMS: "iphoneos iphonesimulator"
+    info:
+      path: HeartRateBroadcaster/Info.plist
+      properties:
+        # Keeps the GATT server alive and notifications flowing once a central
+        # has connected. Does NOT make a backgrounded app discoverable — iOS
+        # moves the service UUID into the overflow advertising area, which
+        # non-Apple centrals cannot read. See plan: pair-first UX.
+        UIBackgroundModes:
+          - bluetooth-peripheral
+          # The app is also a central: it subscribes to power, cadence and
+          # trainer sensors. Without this the subscriptions are torn down the
+          # moment the screen locks, which is most of a ride.
+          - bluetooth-central
+          # Picture in Picture is gated on the audio background mode even when
+          # there is no audio — the system treats a detached window as
+          # continued playback and tears it down without this.
+          - audio
+          # No workout-processing here. The phone does run its own
+          # HKWorkoutSession for AirPods Pro 3 heart rate, but that mode is a
+          # watchOS key (WKBackgroundModes, see the watch target) and App Store
+          # validation rejects the build outright if it appears on iOS:
+          #   ERROR ITMS-90112: UIBackgroundModes contains an invalid value:
+          #   'workout-processing'
+          # The session survives backgrounding regardless, because
+          # bluetooth-peripheral and audio already keep the app running.
+        NSSupportsLiveActivities: true
+        # The virtual shifter listens on the local network and advertises over
+        # Bonjour. iOS refuses both without these two: the usage string gates the
+        # permission prompt, and a Bonjour service type that is not declared here
+        # is simply never published — silently, with no error at the listener.
+        NSLocalNetworkUsageDescription: "HeartRate Broadcaster offers this phone to cycling apps on your network as a virtual shifter, so you can change gear from the app."
+        NSBonjourServices:
+          - _openbikecontrol._tcp
+        # English base values for the three permission prompts. The translations
+        # live in InfoPlist.xcstrings and still win: a key in
+        # <lang>.lproj/InfoPlist.strings overrides the same key in Info.plist at
+        # runtime, which is the opposite of how INFOPLIST_KEY_ build settings
+        # behave and the reason these belong here rather than up in `settings`.
+        #
+        # They are required, not redundant. With the catalog alone the key is
+        # absent from Info.plist entirely, and App Store validation says so:
+        #   WARNING ITMS-90683: Missing purpose string in Info.plist … If your
+        #   app supports multiple locales, you're now required to provide a
+        #   purpose string value in the Info.plist file in addition to a valid
+        #   localized string across each of your app's localization folders.
+        # It uploads as a warning, but a missing purpose string is what makes
+        # the HealthKit authorization request fail rather than prompt.
+        NSHealthShareUsageDescription: "HeartRate Broadcaster reads your heart rate so it can be relayed to your bike computer or fitness device."
+        NSHealthUpdateUsageDescription: "HeartRate Broadcaster records a workout session on your Apple Watch so heart rate can be sampled continuously."
+        NSBluetoothAlwaysUsageDescription: "HeartRate Broadcaster advertises as a standard Bluetooth heart rate monitor so devices like Garmin and Wahoo can receive your heart rate. It also connects to your power meter, cadence sensor and trainer to record a workout."
+    preBuildScripts:
+      - name: Auto-increment build number
+        basedOnDependencyAnalysis: false
+        script: |
+          XCCONFIG="${PROJECT_DIR}/build_number.xcconfig"
+          CURRENT=$(grep 'CURRENT_PROJECT_VERSION' "$XCCONFIG" 2>/dev/null | grep -oE '[0-9]+' || echo 0)
+          NEXT=$((CURRENT + 1))
+          GIT_SHA=$(git -C "$PROJECT_DIR" rev-parse --short=8 HEAD 2>/dev/null || echo "unknown")
+          LAST4="${GIT_SHA: -4}"
+          BUILD_TAG="${NEXT}.${LAST4}"
+          echo "CURRENT_PROJECT_VERSION = $NEXT" > "$XCCONFIG"
+          echo "GIT_SHORT_SHA = $GIT_SHA" >> "$XCCONFIG"
+          # This file is rewritten on every build, so the include has to be
+          # re-emitted here or DEVELOPMENT_TEAM disappears after the first one.
+          # `#include?` is the optional form: a checkout without the generated
+          # file gets a signing error naming the setting, not a parse failure.
+          echo '#include? "signing.xcconfig"' >> "$XCCONFIG"
+          for DIR in HeartRateBroadcaster HeartRateBroadcasterWatch; do
+            cat > "${PROJECT_DIR}/${DIR}/GeneratedBuildInfo.swift" <<SWIFT
+          // Auto-generated by build script — do not edit
+          let kBuildTag = "${BUILD_TAG}"
+          let kBuildNumber = "${NEXT}"
+          let kGitSHA = "${GIT_SHA}"
+          SWIFT
+          done
+    dependencies:
+      - target: HeartRateBroadcasterWatch
+        embed: true
+        codeSign: true
+      - target: HeartRateWidgets
+        embed: true
+        codeSign: true
+      - sdk: HealthKit.framework
+      - sdk: CoreBluetooth.framework
+      - sdk: WatchConnectivity.framework
+      - sdk: ActivityKit.framework
+      - sdk: AVKit.framework
+      - sdk: AVFoundation.framework
+
+  # ------------------------------------------------- Live Activity extension
+  HeartRateWidgets:
+    type: app-extension
+    platform: iOS
+    deploymentTarget: "26.0"
+    sources:
+      - HeartRateWidgets
+      # The attributes type must be compiled into both binaries — a widget
+      # extension is a separate process and shares nothing else with the app.
+      - LiveActivity
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: xyz.atsignhandle.heart-rate-broadcaster.widgets
+        GENERATE_INFOPLIST_FILE: true
+        INFOPLIST_FILE: HeartRateWidgets/Info.plist
+        INFOPLIST_KEY_CFBundleDisplayName: "HeartRate Broadcaster"
+        SKIP_INSTALL: true
+        TARGETED_DEVICE_FAMILY: "1,2"
+        SUPPORTED_PLATFORMS: "iphoneos iphonesimulator"
+    dependencies:
+      - sdk: WidgetKit.framework
+      - sdk: SwiftUI.framework
+      - sdk: ActivityKit.framework
+
+  # ------------------------------------------------------------ watchOS app
+  HeartRateBroadcasterWatch:
+    type: application
+    platform: watchOS
+    deploymentTarget: "11.0"
+    sources:
+      - HeartRateBroadcasterWatch
+      - Shared
+    configFiles:
+      Debug: build_number.xcconfig
+      Release: build_number.xcconfig
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: xyz.atsignhandle.heart-rate-broadcaster.watchkitapp
+        CODE_SIGN_ENTITLEMENTS: HeartRateBroadcasterWatch/HeartRateBroadcasterWatch.entitlements
+        GENERATE_INFOPLIST_FILE: true
+        INFOPLIST_FILE: HeartRateBroadcasterWatch/Info.plist
+        INFOPLIST_KEY_CFBundleDisplayName: "HeartRate Broadcaster"
+        INFOPLIST_KEY_WKCompanionAppBundleIdentifier: xyz.atsignhandle.heart-rate-broadcaster
+        # The two Health usage strings' translations come from
+        # HeartRateBroadcasterWatch/InfoPlist.xcstrings. A build setting of the
+        # same name would override the catalog silently — see the iOS target —
+        # so the English base values sit in the target's Info.plist instead,
+        # where the catalog can still override them per language.
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+    dependencies:
+      - sdk: HealthKit.framework
+      - sdk: WatchConnectivity.framework
+      - sdk: WatchKit.framework
+
+  # ------------------------------------------------------------------ tests
+  HeartRateBroadcasterTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "26.0"
+    sources:
+      - Tests
+      - Shared
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: xyz.atsignhandle.heart-rate-broadcaster.tests
+        GENERATE_INFOPLIST_FILE: true
+
+  # The screenshot runner. A UI test rather than a script driving `simctl`,
+  # because only a UI test process can tap a SwiftUI control by its accessibility
+  # identifier — from outside, a simulator screen is pixels. It is deliberately
+  # kept out of the main scheme's test action: it is slow, it wants a specific
+  # device, and a failure in it is a stale screenshot, not a broken app.
+  HeartRateBroadcasterScreenshots:
+    type: bundle.ui-testing
+    platform: iOS
+    deploymentTarget: "26.0"
+    sources:
+      - Screenshots
+    dependencies:
+      - target: HeartRateBroadcaster
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: xyz.atsignhandle.heart-rate-broadcaster.screenshots
+        GENERATE_INFOPLIST_FILE: true
+
+schemes:
+  HeartRateBroadcaster:
+    build:
+      targets:
+        HeartRateBroadcaster: all
+        HeartRateBroadcasterWatch: all
+        HeartRateWidgets: all
+        HeartRateBroadcasterTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - HeartRateBroadcasterTests
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+
+  HeartRateBroadcasterWatch:
+    build:
+      targets:
+        HeartRateBroadcasterWatch: all
+    run:
+      config: Debug
+
+  # Driven by scripts/media/screenshots.ts, once per language.
+  HeartRateBroadcasterScreenshots:
+    build:
+      targets:
+        HeartRateBroadcaster: all
+        HeartRateWidgets: all
+        HeartRateBroadcasterScreenshots: [test]
+    test:
+      config: Debug
+      targets:
+        - HeartRateBroadcasterScreenshots

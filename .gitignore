@@ -1,0 +1,105 @@
+# Xcode
+build/
+DerivedData/
+*.xcodeproj
+*.xcworkspace
+!*.xcodeproj/project.xcworkspace
+xcuserdata/
+*.xcuserstate
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# XcodeGen output — the project is generated from project.yml
+HeartRateBroadcaster.xcodeproj/
+
+# Generated at build time
+**/GeneratedBuildInfo.swift
+
+# Signing
+*.mobileprovision
+*.p12
+*.cer
+private_keys/
+ExportOptions.plist
+# Generated from apple-project.json by scripts/gen-xcconfig.sh. Holds the team
+# identifier, which names the developer account.
+signing.xcconfig
+
+# Toolchain scratch — xcodegen/xcodebuild drop these in the working directory
+TemporaryDirectory.*/
+*.swiftpm.lock
+.swiftpm/
+
+# macOS
+.DS_Store
+
+# Claude
+.claude
+.github-commit-messages
+
+# Backups (filename convention: name.YYYYMMDD.ext)
+*.20[0-9][0-9][0-9][0-9][0-9][0-9].*
+*.20[0-9][0-9][0-9][0-9][0-9][0-9]-*.*
+
+# Swift macro expansion dumps written by xcodebuild diagnostics
+swift-generated-sources/
+
+# Node scratch dropped by wrangler in the working directory
+node-compile-cache/
+update-check/
+
+# Derived upload set — regenerate with scripts/export-appstore.ts
+/appstore/
+
+# Browser prompts are working notes — kept locally, deleted once used. The
+# README that accumulated alongside them is a findings log, and what it logs is
+# account facts: legal name, postal address, phone, personal email, the App
+# Store Connect issuer and key identifiers. None of that belongs in a repo, so
+# the whole directory stays local rather than the prompts alone.
+docs/prompts/
+
+# Apple team, key and bundle identifiers.
+apple-project.json
+
+# The generated site. Every file in it is written by `bun scripts/site.ts` from
+# web/src and web/static, so tracking it would double the repository with a
+# second copy of every page in twenty-five languages and make every copy change
+# a fifty-file diff.
+web/dist/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
+
+# Result bundles and derived data from scripts/screenshots.ts. Regenerable,
+# and the derived data alone is several gigabytes.
+.screenshots/
+
+# App Review demo footage. The camera originals are hundreds of MiB each and the
+# publishable versions are re-encoded into web/review/ by scripts/review-videos.ts,
+# so the originals never need to be in the history.
+
+# Contact sheets and crops pulled out of that footage for frame-by-frame
+# verification. Every one of them is regenerable from the masters above, and a
+# single check can leave a hundred JPEGs behind, so ignore the directories
+# wholesale rather than naming each pass.
+
+# The two demo videos published for App Review. Forty megabytes of re-encoded
+# footage, regenerable from the masters by scripts/review-videos.ts, and only
+# ever relevant to one submission. The page around them is small enough to keep.
+web/review/
+
+# Lint toolchain only. The app is Swift and the scripts run under bun with no
+# dependencies; node_modules exists solely so `bunx oxlint` has a binary.
+node_modules/
+
+
+# Local working area — never published. Nothing in the repo should depend on it.
+scratchpad/
+notes/
