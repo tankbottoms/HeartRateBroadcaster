@@ -222,6 +222,58 @@ covers, with no re-signing step.
 The TypeScript scripts run under [Bun](https://bun.sh); the image ones need
 ImageMagick. `scripts/lib/` is shared code, not entry points.
 
+## Publishing depends on `asc`
+
+Every upload goes through [`asc`](https://asccli.sh), the App Store Connect CLI.
+This repository has no second upload path. `scripts/appstore/asc-upload.ts` calls
+`asc` and stops if `asc` is absent.
+
+```sh
+brew install asc
+asc auth login     # stores the API key in the macOS keychain
+asc doctor         # confirms the key, the issuer and the team
+```
+
+`asc` replaced `xcrun altool`. The former `scripts/appstore/upload-build.sh` drove
+`altool --validate-app` and `altool --upload-app`. `altool` reads the private key
+by name from `~/.appstoreconnect/private_keys/`, so the `.p8` had to sit on disk
+at a fixed path. `asc` resolves the key from its own keychain profile. No script
+here accepts a key path, and no key reaches a command line.
+
+### What the upload script reads
+
+| Source | Values |
+|---|---|
+| `apple-project.json` — gitignored | `appStoreConnect.appleId`, `paths.scheme`, `app.marketingVersion` |
+| `build_number.xcconfig` — committed | `CURRENT_PROJECT_VERSION` |
+| `asc builds next-build-number` | the number Apple accepts next |
+
+Every Apple identifier stays in `apple-project.json`. That file is gitignored and
+has never been committed. The script carries no identifier of its own, so the
+script is safe to publish.
+
+The script does not pass a build number to `asc`. `asc` reads `CFBundleVersion`
+from the archive, so the number that uploads is the number that was built. There
+is no second source of truth.
+
+Warning: a rejected upload still consumes the build number. Before it uploads,
+the script compares the local number against the number Apple already holds. The
+script refuses the upload when the local number is not ahead.
+
+### The agent workflow
+
+A Claude Code skill drives this workflow. Load the on-demand bundle, then name the
+skill:
+
+```
+/on-demand:mobile     # provides asc, apple-init, apple-release
+/asc                  # App Store Connect operations
+```
+
+`/on-demand:asc-extra` adds the narrow skills: build lifecycle, TestFlight
+orchestration, metadata sync, crash triage, notarization. Each skill reads the
+same gitignored `apple-project.json`, so an agent needs no credential of its own.
+
 ## The marketing page
 
 ```sh
