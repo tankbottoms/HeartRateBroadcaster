@@ -38,7 +38,7 @@ Key roles: **Admin** or **App Manager** to write metadata or upload a build.
 | Name, subtitle, privacy URL | `appInfoLocalizations` | yes |
 | Screenshots | `appScreenshotSets` + `appScreenshots` | yes |
 | App previews (video) | `appPreviewSets` + `appPreviews` | no |
-| Upload a build | `altool` / Transporter, **not** this API | `scripts/upload-build.sh` |
+| Upload a build | `asc builds upload`, **not** this API | `scripts/appstore/asc-upload.ts` |
 | Select a build for a version | `PATCH /v1/appStoreVersions/{id}/relationships/build` | no |
 | Age rating | `ageRatingDeclarations` | no — set once |
 | Pricing and availability | `appPriceSchedules`, `appAvailabilities` | no — free, all territories |

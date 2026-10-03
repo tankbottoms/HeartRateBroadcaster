@@ -272,7 +272,7 @@
     "xcodegen": true,
     "//archive": "xcodebuild archive -project <name>.xcodeproj -scheme <scheme> -configuration Release -destination 'generic/platform=iOS' -archivePath <path> -allowProvisioningUpdates",
     "//export": "xcodebuild -exportArchive -archivePath <path> -exportPath <dir> -exportOptionsPlist ExportOptions.plist",
-    "//upload": "scripts/appstore/upload-build.sh — reads this file, validates with altool, then uploads. Validation first: a rejected upload still consumes the build number.",
+    "//upload": "scripts/appstore/asc-upload.ts — reads this file, then uploads with asc builds upload. It refuses to upload when the local build number is not ahead of the one Apple already has, because a rejected upload still consumes the number.",
     "//install": "xcrun devicectl device install app --device <udid> <path>.app. `xcrun devicectl list devices` for the UDID. Fails with kAMDMobileImageMounterDeviceLocked if the device is locked.",
     "//localize": "Endpoint for scripts/lib/translator.ts, an OpenAI-compatible /v1/chat/completions server. Kept here rather than in the source so the repo names no host on anyone's LAN. Override per-run with LOCALIZE_URL. Only scripts/site/localize.ts uses it; the app does not.",
     "localizeUrl": "http://127.0.0.1:8080/v1/chat/completions"

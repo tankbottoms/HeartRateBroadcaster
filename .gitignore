@@ -64,6 +64,13 @@ docs/prompts/
 # Apple team, key and bundle identifiers.
 apple-project.json
 
+# asc working directory and anything asc renders from apple-project.json. Both
+# can carry the team identifier and the bundle identifier, so both are denied
+# here rather than relying on the deny-all in the global gitignore: a later
+# re-allow in this file would silently expose them.
+/.asc/
+/Generated/
+
 # The generated site. Every file in it is written by `bun scripts/site.ts` from
 # web/src and web/static, so tracking it would double the repository with a
 # second copy of every page in twenty-five languages and make every copy change

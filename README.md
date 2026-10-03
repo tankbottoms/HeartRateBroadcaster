@@ -217,7 +217,7 @@ covers, with no re-signing step.
 | `scripts/media/prepare-screenshots.ts` | Resizes raw device captures to the exact sizes App Store Connect accepts, and publishes named web copies |
 | `scripts/site/publish-press-kit.ts` | Curates the App Store screenshot set into `web/press/` with a machine-readable manifest |
 | `scripts/xcode/make-sideload-ipa.sh` | Archives Release, exports an `.ipa`, and optionally cuts a GitHub release |
-| `scripts/appstore/upload-build.sh` | Validates then uploads an `.ipa` to App Store Connect, reading `apple-project.json` |
+| `scripts/appstore/asc-upload.ts` | Uploads an `.ipa` to App Store Connect with `asc`, after checking the build number against Apple's |
 
 The TypeScript scripts run under [Bun](https://bun.sh); the image ones need
 ImageMagick. `scripts/lib/` is shared code, not entry points.
