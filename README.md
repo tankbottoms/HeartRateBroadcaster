@@ -144,6 +144,15 @@ generated and is not committed — regenerate it rather than editing it.
 
 ## Building
 
+FTMS Indoor Bike Data decoding uses the MIT-licensed
+[FTMS Swift package](https://github.com/deancochran/ftms/tree/swift-v0.2.0/packages/swift),
+pinned to its Swift 0.2.0 release commit in `project.yml`. Xcode resolves this
+dependency after project generation. `Shared/IndoorBikeData.swift` keeps the
+app's existing four-value interface and two-byte resistance layout, rejecting
+notifications with truncated flagged fields (including fields after heart rate).
+Bluetooth connections, sensor selection, and workout handling remain app-owned;
+this dependency does not add trainer control.
+
 Requires Xcode 26, [XcodeGen](https://github.com/yonaskolb/XcodeGen), and an
 Apple Developer account for signing.
 

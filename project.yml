@@ -25,6 +25,12 @@ options:
     [en, de, fr, it, es, nl, ja, zh-Hans, zh-Hant, ko, sv, da, nb, fi, pl, cs,
      pt-BR, es-MX, ru, uk, tr, ar, th, id, vi]
 
+packages:
+  FTMS:
+    url: https://github.com/deancochran/ftms.git
+    # Swift 0.2.0. Use a revision: this monorepo's v* tags belong to npm.
+    revision: 9aee23dc8e39fda7982af1d2d0f7fc9dd0e5b527
+
 configFiles:
   Debug: build_number.xcconfig
   Release: build_number.xcconfig
@@ -169,6 +175,8 @@ targets:
           SWIFT
           done
     dependencies:
+      - package: FTMS
+        product: FTMS
       - target: HeartRateBroadcasterWatch
         embed: true
         codeSign: true
@@ -232,6 +240,8 @@ targets:
         # where the catalog can still override them per language.
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
     dependencies:
+      - package: FTMS
+        product: FTMS
       - sdk: HealthKit.framework
       - sdk: WatchConnectivity.framework
       - sdk: WatchKit.framework
@@ -244,6 +254,9 @@ targets:
     sources:
       - Tests
       - Shared
+    dependencies:
+      - package: FTMS
+        product: FTMS
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: xyz.atsignhandle.heart-rate-broadcaster.tests
