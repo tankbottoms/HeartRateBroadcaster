@@ -8,12 +8,12 @@
 # app-store-shaped ipa is what to publish.
 #
 # Usage:
-#   scripts/make-sideload-ipa.sh          # build only
-#   scripts/make-sideload-ipa.sh --release  # build, then gh release create
+#   scripts/xcode/make-sideload-ipa.sh          # build only
+#   scripts/xcode/make-sideload-ipa.sh --release  # build, then gh release create
 
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT"
 
 CFG="$ROOT/apple-project.json"

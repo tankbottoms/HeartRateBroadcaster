@@ -9,7 +9,7 @@
 # Run it before `xcodegen generate`. make-sideload-ipa.sh already does.
 set -euo pipefail
 
-cd "$(dirname "$0")/.."
+cd "$(dirname "$0")/../.."
 
 if [[ ! -f apple-project.json ]]; then
   echo "apple-project.json missing — copy apple-project.example.json and fill it in" >&2
