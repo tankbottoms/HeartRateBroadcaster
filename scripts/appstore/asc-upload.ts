@@ -38,9 +38,18 @@ const cfg = await Bun.file(join(root, "apple-project.json")).json();
 const appId: string = cfg.appStoreConnect?.appleId ?? "";
 const scheme: string = cfg.paths?.scheme ?? "";
 const brand: string = cfg.site?.brand ?? cfg.app?.name ?? scheme;
-const version: string = cfg.app?.marketingVersion ?? "";
 if (!appId) throw new Error("apple-project.json: appStoreConnect.appleId is required");
 if (!scheme) throw new Error("apple-project.json: paths.scheme is required");
+
+// The marketing version is read from project.yml, not apple-project.json.
+// project.yml sets MARKETING_VERSION, which is what compiles into the binary
+// and therefore what Apple reads back; a copy in apple-project.json was a
+// second source that could disagree with the shipped bundle while every script
+// still reported the stale value. It also does not belong in the gitignored
+// file: the version users see is not a credential.
+const projectYml = join(root, "project.yml");
+const version: string =
+  (await Bun.file(projectYml).text()).match(/^\s*MARKETING_VERSION:\s*"?([^"\s#]+)"?/m)?.[1] ?? "";
 
 const args = process.argv.slice(2);
 const dryRun = args.includes("--dry-run");

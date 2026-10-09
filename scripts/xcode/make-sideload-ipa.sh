@@ -80,8 +80,28 @@ xcodebuild -exportArchive \
   -allowProvisioningUpdates "${AUTH[@]}"
 
 IPA="$OUT/$SCHEME.ipa"
-BUILD="$(grep -oE '[0-9]+' build_number.xcconfig | head -1)"
-VERSION="$(plutil -extract app.marketingVersion raw -o - "$CFG")"
+
+# The tag names the artifact, so both numbers are read out of the artifact.
+#
+# build_number.xcconfig is the wrong source: the preBuildScript rewrites it
+# during the archive, so by the time this line runs it holds the number the NEXT
+# build will carry, and the tag named a build the ipa does not contain.
+# apple-project.json was the wrong source for the version for the same class of
+# reason — it was a second copy that could disagree with the shipped bundle.
+# MARKETING_VERSION in project.yml is what compiles in; reading it back out of
+# the bundle proves what actually shipped rather than restating the input.
+#
+# The entry is matched at an exact depth. unzip's `*` matches `/`, so a
+# Payload/*.app/Info.plist pattern also matches the watch app nested at
+# Payload/X.app/Watch/Y.app/Info.plist and would concatenate both plists.
+PLIST_ENTRY="$(unzip -Z1 "$IPA" | grep -E '^Payload/[^/]+\.app/Info\.plist$' | head -1)"
+if [ -z "$PLIST_ENTRY" ]; then
+  echo "cannot find the app Info.plist inside $IPA" >&2
+  exit 1
+fi
+unzip -p "$IPA" "$PLIST_ENTRY" > "$OUT/BuiltInfo.plist"
+BUILD="$(plutil -extract CFBundleVersion raw -o - "$OUT/BuiltInfo.plist")"
+VERSION="$(plutil -extract CFBundleShortVersionString raw -o - "$OUT/BuiltInfo.plist")"
 TAG="v${VERSION}-${BUILD}"
 
 echo

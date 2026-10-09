@@ -58,9 +58,7 @@
       "watchOS": "11.0"
     },
     "//deviceFamily": "TARGETED_DEVICE_FAMILY. 1 = iPhone, 2 = iPad, 4 = Watch. Declaring iPad obliges you to supply iPad screenshots.",
-    "deviceFamily": "1,2",
-    "//marketingVersion": "MARKETING_VERSION, the version users see. The build number auto-increments in build_number.xcconfig via a preBuildScript.",
-    "marketingVersion": "1.0"
+    "deviceFamily": "1,2"
   },
   "paths": {
     "//": [
