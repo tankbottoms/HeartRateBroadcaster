@@ -43,7 +43,7 @@ settings:
     # translation pass runs after extraction, so a clean build is impossible on
     # the first pass by construction.
     LOCALIZED_STRING_MACRO_NAMES: "NSLocalizedString CFCopyLocalizedString"
-    MARKETING_VERSION: "1.0"
+    MARKETING_VERSION: "1.0.1"
     # DEVELOPMENT_TEAM is deliberately absent. It is not a credential — it is
     # embedded in every shipped IPA's provisioning profile — but it identifies
     # the Apple Developer account, and this file is the one most likely to be
