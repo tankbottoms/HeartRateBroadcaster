@@ -12,13 +12,13 @@
 // The build number is deliberately NOT passed. asc extracts CFBundleVersion
 // from the archive, so the number uploaded is the number that was built -- there
 // is no second source of truth to drift. What this script does instead is ask
-// Apple for the next safe number and compare it against the local counter,
-// because an upload that collides with an existing build is rejected and a
-// rejected upload still burns the number.
+// Apple for the next safe number and compare it against the number inside the
+// archive, because an upload that collides with an existing build is rejected
+// and a rejected upload still burns the number.
 
-import { existsSync, statSync } from "node:fs";
+import { existsSync, statSync, writeFileSync, rmSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
-import { homedir } from "node:os";
+import { homedir, tmpdir } from "node:os";
 
 const ASC = "/opt/homebrew/bin/asc";
 
@@ -75,21 +75,69 @@ if (nbn.exitCode === 0) {
   console.log(`live     build-number query failed: ${nbn.stderr.toString().trim().split("\n")[0]}`);
 }
 
-// The local counter is incremented by the xcodegen prebuild step and committed,
-// so it is the number inside the archive. If Apple has already seen it, the
-// upload will be rejected.
+// CFBundleVersion inside the archive is the number that uploads, so it is the
+// only number worth gating on.
+//
+// build_number.xcconfig is NOT that number. The xcodegen prebuild step rewrites
+// that file DURING the archive, so once a build finishes it already holds the
+// number the NEXT build will carry. Gating on it is wrong by exactly one, and
+// wrong in the permissive direction: it cleared an upload whose archive held a
+// build number Apple already had, Apple rejected it 90062 as a duplicate, and
+// the number burned anyway -- which is the single outcome this gate exists to
+// prevent. The xcconfig is still printed, because the number it holds is what
+// to expect from the next archive, but it decides nothing.
+//
+// unzip's `*` matches `/` too, so `Payload/*.app/Info.plist` also matches the
+// watch app nested at `Payload/X.app/Watch/Y.app/Info.plist`, and `unzip -p`
+// would concatenate both plists into one stream that parses as neither. Select
+// the entry by exact depth instead of by glob.
+function archiveBuildNumber(ipaPath: string): number | null {
+  const list = Bun.spawnSync(["/usr/bin/unzip", "-Z1", ipaPath]);
+  if (list.exitCode !== 0) return null;
+  const entry = list.stdout
+    .toString()
+    .split("\n")
+    .map((e) => e.trim())
+    .find((e) => /^Payload\/[^/]+\.app\/Info\.plist$/.test(e));
+  if (!entry) return null;
+
+  const raw = Bun.spawnSync(["/usr/bin/unzip", "-p", ipaPath, entry]);
+  if (raw.exitCode !== 0 || raw.stdout.length === 0) return null;
+
+  // A shipped Info.plist is a binary plist, and plutil will not take one on
+  // stdin, so it has to touch disk.
+  const tmp = join(tmpdir(), `asc-upload-${process.pid}.plist`);
+  writeFileSync(tmp, raw.stdout);
+  try {
+    const out = Bun.spawnSync([
+      "/usr/bin/plutil", "-extract", "CFBundleVersion", "raw", "-o", "-", tmp,
+    ]);
+    if (out.exitCode !== 0) return null;
+    const n = Number(out.stdout.toString().trim());
+    return Number.isInteger(n) ? n : null;
+  } finally {
+    rmSync(tmp, { force: true });
+  }
+}
+
+const archiveBuild = archiveBuildNumber(ipa);
+if (archiveBuild == null) {
+  console.error("\ncannot read CFBundleVersion from the archive, so the duplicate check cannot run.");
+  console.error("a rejected upload still burns the build number, so this is fatal rather than a warning.");
+  process.exit(1);
+}
+console.log(`archive  CFBundleVersion = ${archiveBuild}`);
+
 const xcconfig = join(root, "build_number.xcconfig");
 if (existsSync(xcconfig)) {
   const m = (await Bun.file(xcconfig).text()).match(/^\s*CURRENT_PROJECT_VERSION\s*=\s*(\d+)/m);
-  const local = m ? Number(m[1]) : null;
-  if (local != null) {
-    console.log(`local    build_number.xcconfig CURRENT_PROJECT_VERSION = ${local}`);
-    if (liveLatest != null && local <= liveLatest) {
-      console.error(`\nlocal build number ${local} is not ahead of Apple's ${liveLatest}; this upload would be rejected.`);
-      console.error(`set CURRENT_PROJECT_VERSION to ${liveNext ?? liveLatest + 1} and rebuild before uploading.`);
-      process.exit(1);
-    }
-  }
+  if (m) console.log(`local    build_number.xcconfig CURRENT_PROJECT_VERSION = ${Number(m[1])} (what the next archive will carry)`);
+}
+
+if (liveLatest != null && archiveBuild <= liveLatest) {
+  console.error(`\narchive build number ${archiveBuild} is not ahead of Apple's ${liveLatest}; this upload would be rejected.`);
+  console.error(`rebuild so the archive carries ${liveNext ?? liveLatest + 1}, then upload.`);
+  process.exit(1);
 }
 
 // --verify-timeout watches for immediate post-commit processing failures. asc
